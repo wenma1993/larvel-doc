@@ -3,7 +3,7 @@
 
 # 基本使用方法
 1. composer 安装包:
-  > composer require --dev orangesir/larvel-doc:dev-master
+  > composer require --dev wenma1993/laravel-doc
 2. 配置服务提供者, config/app.php
   > 'providers' => [ Apidoc\ApiDocServiceProvider::class ]
 3. 在controller方法上编写文档,具体编写见下面"文档编写规则"
