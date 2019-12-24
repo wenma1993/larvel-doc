@@ -12,7 +12,8 @@ class ApiCodeCommentsParser {
     private $controllerClass;
     private $controllerMethod;
 
-    private $markSet = ["Param","Name","Description","Response","ParamTest","DocIgnore"];
+    private $markSet = ["Param","Desc","Description","Response","ParamTest","DocIgnore"];
+    private $params = ["name","type","value","ParamTest","Must"];
 
     public function __construct($uses) {
 
@@ -83,7 +84,7 @@ class ApiCodeCommentsParser {
         $mark = trim($mark, "@");
         if(!in_array($mark, $this->markSet)) {
             //放弃未定义的标记
-            throw new UndefinedMarkException("undefined mark in ".$this->getUses().": @".$mark);
+//            throw new UndefinedMarkException("undefined mark in ".$this->getUses().": @".$mark);
         }
 
         if($mark!="Param") {
@@ -94,28 +95,12 @@ class ApiCodeCommentsParser {
         if($content==="") {
             throw new DocException("@Param no content in ".$this->getUses().": ".$row);
         }
-        $paramTestIndex = strpos($content, "@ParamTest");
-        if($paramTestIndex===false) {
-            $paramTest = "";
-            $paramDoc = trim($content);
-        } else {
-            $paramTest = substr($content, $paramTestIndex);
-            $paramDoc = substr($content, 0, $paramTestIndex);
+        $params = explode(" ", $content);
+        foreach ($this->params as $k => $v){
+            $Param[$v] = isset($params[$k]) ? $params[$k] : "";
         }
-        if(trim($paramDoc)==="") {
-            throw new DocException("@Param no content in ".$this->getUses().": ".$row);
-        }
-        $contentFristSemicolonIndex = strpos($paramDoc, ":");
-        $paramName = substr($content, 0 ,$contentFristSemicolonIndex);
-
-        $paramValue = substr($paramDoc, $contentFristSemicolonIndex+1);
-        $paramTestValue = str_replace("@ParamTest", "", $paramTest);
         return [
-            "Param" => [
-                "name" => $paramName,
-                "value" => trim($paramValue),
-                "ParamTest" => trim($paramTestValue)
-            ]
+            "Param" => $Param
         ];
     }
 
