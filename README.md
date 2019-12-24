@@ -4,14 +4,14 @@
 # 基本使用方法
 1. composer 安装包:
   > composer require --dev wenma1993/laravel-doc 
-2. 配置服务提供者, config/app.php
-  > 'providers' => [ Apidoc\ApiDocServiceProvider::class ]
+2. 配置服务提供者, config/app.php 在 'providers'中加入
+  > Apidoc\ApiDocServiceProvider::class,
 3. 在controller方法上编写文档,具体编写见下面"文档编写规则"
 4. 生成文档(生成前会删除所有文档):
-  php artisan doc:generate
-5. 查看文档: http://project-domain/docs/index.html
+  > php artisan doc:generate
+5. 查看文档: http://url/docs/index.html
 6. 清空所有文档:
-  php artisan doc:cleanall
+  > php artisan doc:cleanall
 
 # 基本用法生成物描述
 生成物包含文档页和测试工具页，下面是截图:<br>
