@@ -18,9 +18,9 @@
             <ul class="nav nav-sidebar">
                 @foreach($apiinfo as $info)
                     @if($info["type"]=="group")
-                        <li><a href="#{{$info["id"]}}" class="text-muted">{{$info["Name"] or "未命名的接口"}}</a></li>
+                        <li><a href="#{{$info["id"]}}" class="text-muted">{{$info["Name"] or "API接口"}}</a></li>
                     @else
-                        <li><a href="#{{$info["id"]}}" class="nav-mitem">{{$info["Name"] or "未命名的接口"}}</a></li>
+                        <li><a href="#{{$info["id"]}}" class="nav-mitem">{{$info["Desc"] or "未命名的接口"}}</a></li>
                     @endif
                 @endforeach
             </ul>
@@ -28,13 +28,13 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             @foreach ($apiinfo as $info)
                 @if($info["depth"]==0)
-                    <h1 class="page-header" id="{{$info["id"]}}">{{$info["Name"] or "未命名的接口"}}</h1>
+                    <h1 class="page-header" id="{{$info["id"]}}">{{$info["Desc"] or "未命名的接口"}}</h1>
                 @endif
                 @if($info["depth"]>0)
                     @if($info["type"]=="group")
                         <h2 class="page-header" id="{{$info["id"]}}">{{$info["Name"] or "未命名的分组"}}</h2>
                     @else
-                            <h4 class="sub-header" id="{{$info["id"]}}">{{$info["Name"] or "未命名的接口"}} <a href="tests/{{$info["id"]}}.html">使用测试工具</a></h4>
+                        <h4 class="sub-header" id="{{$info["id"]}}">{{$info["Desc"] or "未命名的接口"}} <a href="tests/{{$info["id"]}}.html">使用测试工具</a></h4>
                         <div class="table-responsive">
                             <p>{{$info["request_method"]}} {{$info["request_path"]}}</p>
                             <blockquote>
@@ -46,13 +46,19 @@
                                     <tr>
                                         <th>参数名</th>
                                         <th>参数描述</th>
+                                        <th>类型</th>
+                                        <th>例值</th>
+                                        <th>是否必传</th>
                                     </tr>
                                     @if(isset($info["Param"]))
                                         @foreach($info["Param"] as $param)
-                                        <tr>
-                                            <td>{{$param["name"]}}</td>
-                                            <td>{{$param["value"]}}</td>
-                                        </tr>
+                                            <tr>
+                                                <td>{{$param["name"]}}</td>
+                                                <td>{{$param["value"]}}</td>
+                                                <td>{{$param["type"]}}</td>
+                                                <td>{{$param["ParamTest"]}}</td>
+                                                <td>{{$param["Must"] != "" ? "必传" : ""}}</td>
+                                            </tr>
                                         @endforeach
                                     @else
                                         <tr><td colspan="2">不需要参数</td></tr>
