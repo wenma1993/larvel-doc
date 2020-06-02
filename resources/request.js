@@ -71,7 +71,13 @@ $("#sendreqeust").click(function(){
     $(".result").html("doing....");
     var url = $("#url").val();
     var method = $("#method").val();
+    var header = {}
     var param = {}
+    $(".header").each(function(data, obj){
+        console.log(data);
+        console.log(obj);
+        header[$(obj).attr("name")] = $(obj).val();
+    });
     $(".param").each(function(data, obj){
         console.log(data);
         console.log(obj);
@@ -83,6 +89,7 @@ $("#sendreqeust").click(function(){
     }
 
     $.ajax(url,{
+        headers: header,
         data:param,
         type:method,
         dataType:"text",

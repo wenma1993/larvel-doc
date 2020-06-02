@@ -12,7 +12,7 @@ class ApiCodeCommentsParser {
     private $controllerClass;
     private $controllerMethod;
 
-    private $markSet = ["Param","Desc","Description","Response","ParamTest","DocIgnore"];
+    private $markSet = ["Header","Param","Desc","Description","Response","ParamTest","DocIgnore"];
     private $params = ["name","type","value","ParamTest","Must"];
 
     public function __construct($uses) {
@@ -46,6 +46,12 @@ class ApiCodeCommentsParser {
                     $result["Param"][] = $rowResult["Param"];
                 } else {
                     $result["Param"] = [$rowResult["Param"]];
+                }
+            }else if(isset($rowResult["Header"])) {
+                if(isset($result["Header"])) {
+                    $result["Header"][] = $rowResult["Header"];
+                } else {
+                    $result["Header"] = [$rowResult["Header"]];
                 }
             } else {
                 $result = array_merge($result, $rowResult);
@@ -86,11 +92,9 @@ class ApiCodeCommentsParser {
             //放弃未定义的标记
 //            throw new UndefinedMarkException("undefined mark in ".$this->getUses().": @".$mark);
         }
-
-        if($mark!="Param") {
+        if($mark!="Param" && $mark!="Header") {
             return [$mark=>$content];
         }
-
         //参数标记特殊处理
         if($content==="") {
             throw new DocException("@Param no content in ".$this->getUses().": ".$row);
@@ -100,7 +104,7 @@ class ApiCodeCommentsParser {
             $Param[$v] = isset($params[$k]) ? $params[$k] : "";
         }
         return [
-            "Param" => $Param
+            $mark => $Param
         ];
     }
 

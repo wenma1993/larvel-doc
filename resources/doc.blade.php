@@ -44,24 +44,42 @@
                                 <div class="panel-heading">参数列表</div>
                                 <table class="table">
                                     <tr>
+                                        <th>类型</th>
                                         <th>参数名</th>
                                         <th>参数描述</th>
                                         <th>类型</th>
                                         <th>例值</th>
                                         <th>是否必传</th>
                                     </tr>
-                                    @if(isset($info["Param"]))
-                                        @foreach($info["Param"] as $param)
-                                            <tr>
-                                                <td>{{$param["name"]}}</td>
-                                                <td>{{$param["value"]}}</td>
-                                                <td>{{$param["type"]}}</td>
-                                                <td>{{$param["ParamTest"]}}</td>
-                                                <td>{{$param["Must"] != "" ? "必传" : ""}}</td>
-                                            </tr>
-                                        @endforeach
+                                    @if(isset($info["Param"]) || isset($info["Header"]) )
+                                        @if(isset($info["Header"]))
+
+                                            @foreach($info["Header"] as $param)
+                                                <tr>
+                                                    <td>Header</td>
+                                                    <td>{{$param["name"]}}</td>
+                                                    <td>{{$param["value"]}}</td>
+                                                    <td>{{$param["type"]}}</td>
+                                                    <td>{{$param["ParamTest"]}}</td>
+                                                    <td>{{$param["Must"] != "" ? "必传" : ""}}</td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                        @if(isset($info["Param"]))
+                                            @foreach($info["Param"] as $param)
+                                                <tr>
+                                                    <td>Param</td>
+                                                    <td>{{$param["name"]}}</td>
+                                                    <td>{{$param["value"]}}</td>
+                                                    <td>{{$param["type"]}}</td>
+                                                    <td>{{$param["ParamTest"]}}</td>
+                                                    <td>{{$param["Must"] != "" ? "必传" : ""}}</td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+
                                     @else
-                                        <tr><td colspan="2">不需要参数</td></tr>
+                                        <tr><td colspan="5">不需要参数</td></tr>
                                     @endif
                                 </table>
                             </div>

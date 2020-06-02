@@ -14,9 +14,7 @@ class Generate extends Command {
      *
      * @var string
      */
-    protected $signature = 'doc:generate 
-                   
-                        {--queue= : Whether the job should be queued}';
+    protected $signature = 'doc:generate {route=all} ';
 
     /**
      * The console command description.
@@ -30,6 +28,7 @@ class Generate extends Command {
 
     public function __construct()
     {
+
         parent::__construct();
         $this->toolbox = app()->getProvider(ApiDocServiceProvider::class)->getToolbox();
     }
@@ -41,13 +40,14 @@ class Generate extends Command {
      */
     public function handle()
     {
+        $route = $this->argument("route");
         $this->call("doc:cleanall");
         Log::setCommand($this);
         try {
             $desc = $this->toolbox->getDesc();
             $render = $this->toolbox->getRender();
             $render->before();
-            foreach ($desc->extraDesc() as $item) {
+            foreach ($desc->extraDesc($route) as $item) {
                 $render->render($item);
             }
             $render->after();

@@ -13,13 +13,18 @@ class DefaultDescription extends AbstractDescription {
 
     private $groupNameList = array();
 
-    public function extraDesc()
+    public function extraDesc($routeRule)
     {
-
         yield $this->getTileItem();
 
         $routes = $this->getRoutes();
         foreach ($routes as $route) {
+            if($routeRule == "api"){
+                $urlArr = explode("/", $route->uri);
+                if($urlArr[0] != "api"){
+                    continue;
+                }
+            }
             try {
                 $docs = $this->routeDocs($route);
             } catch (DocIgnoreException $e) {
@@ -42,36 +47,36 @@ class DefaultDescription extends AbstractDescription {
     }
 
     private function routeDocs($route) {
-         $docs = [];
-         $groupTitle = $this->groupTilte($route);
+        $docs = [];
+        $groupTitle = $this->groupTilte($route);
 
-         //跨分组时使用
-         if(count($groupTitle)<count($this->groupNameList)) {
-             $this->groupNameList = array_slice($this->groupNameList,0,count($groupTitle));
-         }
+        //跨分组时使用
+        if(count($groupTitle)<count($this->groupNameList)) {
+            $this->groupNameList = array_slice($this->groupNameList,0,count($groupTitle));
+        }
 
-         //有分组
-         for ($i=0;$i<count($groupTitle);$i++) {
-             $name = trim($groupTitle[$i]);
-             if(isset($this->groupNameList[$i])) {
+        //有分组
+        for ($i=0;$i<count($groupTitle);$i++) {
+            $name = trim($groupTitle[$i]);
+            if(isset($this->groupNameList[$i])) {
                 if($name===$this->groupNameList[$i]) {
                     continue;
                 } else {
                     $this->groupNameList = array_slice($this->groupNameList,0, $i);
                 }
-             }
-             $this->groupNameList[] = $name;
-             $docs[] = [
-                 "type" => "group",
-                 "depth"=> $i+1,
-                 "Name" => $name
-             ];
-         }
+            }
+            $this->groupNameList[] = $name;
+            $docs[] = [
+                "type" => "group",
+                "depth"=> $i+1,
+                "Name" => $name
+            ];
+        }
 
-         $docs[] = $this->extraApi($route);
-         Log::info("完成解析接口:".$route->methods[0]." ".$route->uri);
+        $docs[] = $this->extraApi($route);
+        Log::info("完成解析接口:".$route->methods[0]." ".$route->uri);
 
-         return $docs;
+        return $docs;
     }
 
     private function extraApi($route) {
