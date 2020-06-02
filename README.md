@@ -17,9 +17,9 @@
 # 基本用法生成物描述
 生成物包含文档页和测试工具页，下面是截图:<br>
 文档图片:
-<img src="resources/example/doc.png"/>
+<img src="./resources/example/doc.png"/>
 工具图片:
-<img src="resources/example/tool.png"/>
+<img src="./resources/example/tool.png"/>
 
 # 文档编写方法：
 ### 基本模板

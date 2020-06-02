@@ -29,7 +29,27 @@
                 <form class="form-inline">
                     <table class="table table-condensed">
                         <thead>
-                        <th style="width: 30%">参数名称(鼠标覆盖查询描述)</th>
+                        <th style="width: 30%">Header参数名称(鼠标覆盖查询描述)</th>
+                        <th>参数值</th>
+                        </thead>
+                        <tbody>
+                        @if(isset($info["Header"]))
+                            @foreach($info["Header"] as $param)
+                                <tr>
+                                    <td><span class="pointer" title="参数{{$param["name"]}}描述"
+                                              data-container="body" data-toggle="popover" data-placement="top"
+                                              data-content="{{$param["value"]}}">{{$param["name"]}}</span></td>
+                                    <td><input type="text" class="form-control header" name="{{$param["name"]}}" value="{{$param["ParamTest"] or ""}}" placeholder="填入参数值"></td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr><td colspan="2">不需要参数</td></tr>
+                        @endif
+                        </tbody>
+                    </table>
+                    <table class="table table-condensed">
+                        <thead>
+                        <th style="width: 30%">Param参数名称(鼠标覆盖查询描述)</th>
                         <th>参数值</th>
                         </thead>
                         <tbody>
