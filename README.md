@@ -8,7 +8,8 @@
   > Apidoc\ApiDocServiceProvider::class,
 3. 在controller方法上编写文档,具体编写见下面"文档编写规则"
 4. 生成文档(生成前会删除所有文档):
-  > php artisan doc:generate
+  > php artisan doc:generate {route}
+  > 增加 route 前缀匹配生成 默认全部
 5. 查看文档: http://url/docs/index.html
 6. 清空所有文档:
   > php artisan doc:cleanall
@@ -26,7 +27,8 @@
     /**
      * @Desc 新闻列表
      * @Description 获得新闻列表数据接口
-     * @Param type int 资讯类型 9 Must
+     * @H type int 资讯类型 9 Must
+     * @Header type int 资讯类型 9 Must
      * @Param tag string 资讯类型 demo
      * @Param isContent int 是否展示内容:1展示,0不展示,默认0 demo
      * @Param platformId int 平台ID 1
@@ -51,6 +53,8 @@
 > 接口名称
 #### @Description
 > 接口描述
+#### @Header
+> 支持header 参数 
 #### @Param
 > 参数标签，代表http请求的参数描述，格式如下:@Param type int 资讯类型 9 Must @Param 字段名称 类型 注释 例值 是否必传
 #### @Response
