@@ -7,9 +7,7 @@
         "php": ">=7.2.0",
         "fideloper/proxy": "~4.0",
         "laravel/framework": ">=5.6.0",
-        "laravel/tinker": "~1.0",
-        "overtrue/laravel-wechat": "^4.0",
-        "zedisdog/laravel-schema-extend": "^1.0"
+        "laravel/tinker": "^2.5",
     },
     "autoload": {
         "psr-4": {
